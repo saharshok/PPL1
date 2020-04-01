@@ -1,4 +1,4 @@
-import { reduce, map, identity, reduceRight, curry } from "ramda";
+import { reduce, map, identity, max, filter, any } from "ramda";
 
 /* Question 1 */
 export const partition: <T>(predicate: (x: T) => boolean, array: T[]) => T[][] =
@@ -61,8 +61,59 @@ interface Pokemon {
     base: Stats;
 }
 
-export const maxSpeed = undefined;
+export const maxSpeed: (pokemons: Pokemon[]) => Pokemon[] =
+(pokemons: Pokemon[]) => {
+    // we assume that for every pokemon p, p.base.Speed > 0
+    let s: number = reduce((acc: number, p: Pokemon) => max(p.base.Speed, acc), 0, pokemons);
+    return filter((p: Pokemon) => p.base.Speed == s, pokemons);
+};
 
-export const grassTypes = undefined;
+export const grassTypes: (pokemons: Pokemon[]) => string[] =
+(pokemons: Pokemon[]) => {
+    let grassPokemonNames: string[] = map(
+        (p: Pokemon) => p.name.english,
+        filter(
+            (p: Pokemon) => any((t: string) => t == "Grass", p.type),
+            pokemons
+        )
+    );
+    grassPokemonNames.sort();
+    return grassPokemonNames;
+};
 
-export const uniqueTypes = undefined;
+export const uniqueTypes: (pokemons: Pokemon[]) => string[] =
+(pokemons: Pokemon[]) => {
+    let types: string[] = reduce(
+        (acc: string[], p: Pokemon) =>
+            acc.concat(
+                filter(
+                    (type: string) => !any((curType: string) => type == curType, acc),
+                    p.type
+                )
+            ),
+        [],
+        pokemons
+    );
+    types.sort();
+    return types;
+};
+
+// function t(pokemons: Pokemon[]): string[] {
+//     let types: string[] = reduce(
+//         (acc: string[], p: Pokemon) =>
+//             acc.concat(
+//                 reduce(
+//                     (pacc: string[], type: string) =>
+//                         pacc.concat(
+//                             any((curType: string) => type == curType, acc) ?
+//                                 [] :
+//                                 [type]
+//                         ),
+//                     [],
+//                     p.type
+//                 )
+//             ),
+//         [],
+//         pokemons
+//     );
+// }
