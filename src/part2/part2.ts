@@ -1,19 +1,22 @@
-import { reduce } from "ramda";
+import { reduce, map } from "ramda";
 
 /* Question 1 */
-export const partition = <T>(predicate: ((x: T) => boolean), array: T[]) =>
+export const partition: <T>(predicate: (x: T) => boolean, array: T[]) => T[][] =
+<T>(predicate: (x: T) => boolean, array: T[]) =>
     reduce(
         (acc: T[][], elem: T) =>
             predicate(elem) ?
                 [acc[0].concat([elem]), acc[1]] :
                 [acc[0], acc[1].concat([elem])],
         [[], []],
-        array
+        array,
     );
 
 
 /* Question 2 */
-export const mapMat = undefined;
+export const mapMat: <T1, T2>(f: (x: T1) => T2, mat: T1[][]) => T2[][] =
+<T1, T2>(f: (x: T1) => T2, mat: T1[][]) =>
+    map((row: T1[]) => map(f, row), mat);
 
 
 /* Question 3 */
