@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { partition, mapMat } from "../src/part2/part2"
+import { partition, mapMat, composeMany } from "../src/part2/part2"
 
 function biggerthen10(element:number) {
     return (element >= 10);
@@ -29,5 +29,17 @@ describe("Assignment 1 Part 2 Q:2 (mapMat)", () => {
     ];
     it("check 1 ", () => {
         expect(mapMat(x => x * x, start)).to.eql(result);
+    });
+});
+
+describe("Assignment 1 Part 2 Q:3 (composeMany)", () => {
+    const squareAndHalf = composeMany([(x: number) => x / 2, (x: number) => x * x]);
+    it("check 1", () => {
+        expect(squareAndHalf(5)).to.eql(12.5);
+    });
+
+    it("composes 3 functions", () => {
+        const f = composeMany([(x: number) => x / 2, (x: number) => x * x, (x: number) => x + 3]);
+        expect(f(1)).to.eq(8);
     });
 });
