@@ -2,6 +2,8 @@ import { expect } from "chai";
 
 import { partition } from "../src/part2/part2"
 
+import { mapMat } from "../src/part2/part2"
+
 function biggerthen10(element:number) { 
     return (element >= 10);
 }
@@ -17,5 +19,19 @@ describe("Assignment 1 Part 2 Q:1", () => {
 
     it("chack modle 2 (even`s)",()=> {
         expect(partition(x => x % 2 === 0, numbers)).to.eql([[2, 4, 6, 8], [1, 3, 5, 7, 9]]);
+    });
+})
+
+
+describe("Assignment 1 Part 2 Q:2", () => {
+    let result =  [[ 1, 4, 9 ], [ 16, 25, 36 ], [ 49, 64, 81 ]];
+    let start =  [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+        ]
+        ;
+    it("chack modle 1 ",()=> {
+        expect(mapMat(x => x * x, start)).to.eql(result);
     });
 })
