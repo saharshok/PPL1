@@ -18,10 +18,6 @@ export const mapMat: <T1, T2>(f: (x: T1) => T2, mat: T1[][]) => T2[][] =
 <T1, T2>(f: (x: T1) => T2, mat: T1[][]) =>
     map((row: T1[]) => map(f, row), mat);
 
-function name<T>(f1: (x: T)=>T, f2: (x: T)=>T): (x: T) => T {
-    return x => f1(f2(x));
-}
-
 // recudeLeft: acc(cur(x)), identity  ==> identity(f1(x)) => f1(f2(x)) => ... => (f1(f2(f...(f_n-1))))(f_n(x))
 // reduceLeft: cur(acc(x)), identity  ==> f1(identity(x)) => f2(f1(x)) => ... => f_n(f_n-1(...(f1(x))))
 // reduceRight: acc(cur(x)), identity ==> identity(fn(x)) => fn(f_n-1(x)) => (fn(f_n-1(x)))(f_n-2(x)) => ... => f_n(f_n-1(...f1(x)))
@@ -65,7 +61,7 @@ export const maxSpeed: (pokemons: Pokemon[]) => Pokemon[] =
 (pokemons: Pokemon[]) => {
     // we assume that for every pokemon p, p.base.Speed > 0
     let s: number = reduce((acc: number, p: Pokemon) => max(p.base.Speed, acc), 0, pokemons);
-    return filter((p: Pokemon) => p.base.Speed == s, pokemons);
+    return filter((p: Pokemon) => p.base.Speed === s, pokemons);
 };
 
 export const grassTypes: (pokemons: Pokemon[]) => string[] =
@@ -73,7 +69,7 @@ export const grassTypes: (pokemons: Pokemon[]) => string[] =
     let grassPokemonNames: string[] = map(
         (p: Pokemon) => p.name.english,
         filter(
-            (p: Pokemon) => any((t: string) => t == "Grass", p.type),
+            (p: Pokemon) => any((t: string) => t === "Grass", p.type),
             pokemons
         )
     );
@@ -87,7 +83,7 @@ export const uniqueTypes: (pokemons: Pokemon[]) => string[] =
         (acc: string[], p: Pokemon) =>
             acc.concat(
                 filter(
-                    (type: string) => !any((curType: string) => type == curType, acc),
+                    (type: string) => !any((curType: string) => type === curType, acc),
                     p.type
                 )
             ),
@@ -105,7 +101,7 @@ export const uniqueTypes: (pokemons: Pokemon[]) => string[] =
 //                 reduce(
 //                     (pacc: string[], type: string) =>
 //                         pacc.concat(
-//                             any((curType: string) => type == curType, acc) ?
+//                             any((curType: string) => type === curType, acc) ?
 //                                 [] :
 //                                 [type]
 //                         ),
