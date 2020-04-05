@@ -21,7 +21,7 @@ describe("Assignment 1 Part 3", () => {
     // sqrt(pow(x, y) / z)
     const gTest = (x: Optional<number>, y: Optional<number>, z: Optional<number>): Optional<number> => {
         let vo = bind(x, xv => bind(y, yv => power(xv, yv)));
-        vo = bind(vo, v => bind(z, zv => div(zv, v / zv)));
+        vo = bind(vo, v => bind(z, zv => div(v, zv)));
         vo = bind(vo, sqrt);
         return vo;
     }
@@ -53,9 +53,9 @@ describe("Assignment 1 Part 3", () => {
     });
 
     it("checks gTest returns Some<T> value", () => {
-        expect(g(5, 2, 4)).to.satisfy(isOptionalValue(sqrt(6.25)));
-        expect(g(3, 3, 3)).to.eq(3);
-        expect(g(6, 2, 4)).to.eq(3);
-        expect(g(5, 3, 5)).to.eq(5);
+        expect(g(5, 2, 4)).to.deep.eq(makeSome(2.5));
+        expect(g(3, 3, 3)).to.deep.eq(makeSome(3));
+        expect(g(6, 2, 4)).to.deep.eq(makeSome(3));
+        expect(g(5, 3, 5)).to.deep.eq(makeSome(5));
     });
 });
