@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Optional, makeNone, makeSome, bind, isNone, isSome } from "../src/part3/optional";
-
+import { naiveValidateUser } from "../src/part3/result";
 const div = (x: number, y: number): Optional<number> =>
     y === 0 ? makeNone() : makeSome(x / y);
 
@@ -13,9 +13,8 @@ const sqrt = (x: number): Optional<number> =>
 const isOptionalValue = <T>(x: T): (o: Optional<T>) => boolean =>
     o => isSome(o) && o.value === x;
 
-import "../src/part3/optional"
 
-describe("Assignment 1 Part 3", () => {
+describe("Assignment 1 Part 3 (Optional)", () => {
     // sqrt(x) / y
     const fTest = (x: Optional<number>, y: Optional<number>): Optional<number> =>
         bind(bind(x, sqrt), xv => bind(y, yv => div(xv, yv)));
@@ -61,3 +60,16 @@ describe("Assignment 1 Part 3", () => {
         expect(g(5, 3, 5)).to.deep.eq(makeSome(5));
     });
 });
+
+
+describe("Assignment 1 Part 3 (Result)", () => {
+
+    interface User {
+        name: string;
+        email: string;
+        handle: string;
+    }
+
+    let emptyemail: User = {name : "avi", email:"", handle: "mylife"};
+
+})
