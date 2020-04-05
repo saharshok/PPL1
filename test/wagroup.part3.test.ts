@@ -54,12 +54,12 @@ describe("is Some/None", () => {
     })
     // it("checks type of number", () => {
 
-        expect(isNone(3)).to.equal(false);
-    })
-    it("checks type of number", () => {
+    //     expect(isNone(3)).to.equal(false);
+    // })
+    // it("checks type of number", () => {
 
-        expect(isSome(3)).to.equal(false);
-    })
+    //     expect(isSome(3)).to.equal(false);
+    // })
 })
 const user1 = { name: "Ben", email: "bene@post.bgu.ac.il", handle: "bene" };
 const user2 = { name: "Bananas", email: "me@bananas.com", handle: "bene" };

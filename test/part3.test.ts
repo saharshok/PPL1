@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { Optional, makeNone, makeSome, bind as bindOptional, isNone, isSome } from "../src/part3/optional";
 import { Result, makeOk, makeFailure, bind as bindResult, isFailure, isOk, monadicValidateUser,naiveValidateUser } from "../src/part3/result"
+import { reduce } from "ramda";
 
 describe("Assignment 1 Part 3 (Optional)", () => {
     const div = (x: number, y: number): Optional<number> =>
@@ -205,5 +206,27 @@ describe("Assignment 1 Part 3 (Result)", () => {
         expect(g(3, 3, 3)).to.deep.eq(makeOk(3));
         expect(g(6, 2, 4)).to.deep.eq(makeOk(3));
         expect(g(5, 3, 5)).to.deep.eq(makeOk(5));
+    });
+});
+
+describe("Assignment 1 Part 3 (reduce bind)", () => {
+    const f = (x: number): Optional<number> => makeSome(x * 2);
+    const g = (x: number): Optional<number> => makeSome(x + 2);
+
+    it("checks reduce with bind works properly", () => {
+        expect(reduce(bindOptional, makeSome(5), [f, g])).to.satisfy(isSome);
+        // expect(reduce(bindOptional, makeNone(), [f, g])).to.satisfy(isNone); // compile error
+        expect(reduce<(x: number) => Optional<number>, Optional<number>>(bindOptional, makeNone(), [f, g])).to.satisfy(isNone);
+    });
+});
+
+describe("Assignment 1 Part 3 (reduce bind)", () => {
+    const f = (x: number): Result<number> => makeOk(x * 2);
+    const g = (x: number): Result<number> => makeOk(x + 2);
+
+    it("checks reduce with bind works properly", () => {
+        expect(reduce(bindResult, makeOk(5), [f, g])).to.satisfy(isOk);
+        // expect(reduce(bindResult, makeFailure("error"), [f, g])).to.satisfy(isFailure); // compile error
+        expect(reduce<(x: number) => Result<number>, Result<number>>(bindResult, makeFailure("error"), [f, g])).to.satisfy(isFailure)
     });
 });
