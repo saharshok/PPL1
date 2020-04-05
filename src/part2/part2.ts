@@ -2,7 +2,7 @@ import { reduce, map, identity, max, filter, any } from "ramda";
 
 /* Question 1 */
 export const partition: <T>(predicate: (x: T) => boolean, array: T[]) => T[][] /*function type*/
- = <T>(predicate: (x: T) => boolean, array: T[]) : T[][] /*return value T[][]*/ =>
+ = <T>(predicate: (x: T) => boolean, array: T[]): T[][] /*return value T[][]*/ =>
     reduce(
         (acc: T[][], elem: T) =>
             predicate(elem) ?
@@ -14,8 +14,8 @@ export const partition: <T>(predicate: (x: T) => boolean, array: T[]) => T[][] /
 
 
 /* Question 2 */
-export const mapMat: <T1, T2>(f: (x: T1) => T2, mat: T1[][]) => T2[][] /*function type */ 
-= <T1, T2>(f: (x: T1) => T2, mat: T1[][]) : T2[][] /*return value T2 and not T1 so we can return diffrent type from the one we got*/ =>
+export const mapMat: <T1, T2>(f: (x: T1) => T2, mat: T1[][]) => T2[][] /*function type */
+= <T1, T2>(f: (x: T1) => T2, mat: T1[][]): T2[][] /*return value T2 and not T1 so we can return diffrent type from the one we got*/ =>
     map((row: T1[]) => map(f, row), mat);
 
 // recudeLeft: acc(cur(x)), identity  ==> identity(f1(x)) => f1(f2(x)) => ... => (f1(f2(f...(f_n-1))))(f_n(x))
@@ -25,7 +25,7 @@ export const mapMat: <T1, T2>(f: (x: T1) => T2, mat: T1[][]) => T2[][] /*functio
 
 /* Question 3 */
 export const composeMany: <T>(f: ((x: T) => T)[]) => (x: T) => T /*function type */
- = <T>(f: ((x: T) => T)[]) : ((X: T) => T) /*return value (function F(T) -> T )*/  =>
+ = <T>(f: ((x: T) => T)[]): (x: T) => T /*return value (function F(T) -> T )*/  =>
     reduce(
         (acc: (x: T) => T, cur: (x: T) => T) =>
             x => acc(cur(x)),
@@ -57,15 +57,15 @@ interface Pokemon {
     base: Stats;
 }
 
-export const maxSpeed: (pokemons: Pokemon[]) => Pokemon[] /*function type */ 
-= (pokemons: Pokemon[]) : Pokemon[] /*return value Pokemon[])*/ => {
+export const maxSpeed: (pokemons: Pokemon[]) => Pokemon[] /*function type */
+= (pokemons: Pokemon[]): Pokemon[] /*return value Pokemon[])*/ => {
     // we assume that for every pokemon p, p.base.Speed > 0
     let s: number = reduce((acc: number, p: Pokemon) => max(p.base.Speed, acc), 0, pokemons);
     return filter((p: Pokemon) => p.base.Speed === s, pokemons);
 };
 
 export const grassTypes: (pokemons: Pokemon[]) => string[] /*function type */
-= (pokemons: Pokemon[]) : string[]  /*return value string[] (names of grass pokemons)*/=> {
+= (pokemons: Pokemon[]): string[]  /*return value string[] (names of grass pokemons)*/=> {
     let grassPokemonNames: string[] = map(
         (p: Pokemon) => p.name.english,
         filter(
@@ -77,8 +77,8 @@ export const grassTypes: (pokemons: Pokemon[]) => string[] /*function type */
     return grassPokemonNames;
 };
 
-export const uniqueTypes: (pokemons: Pokemon[]) => string[] 
-= (pokemons: Pokemon[]) : string[] /*return value string[] (names of all pokemons types)*/ => {
+export const uniqueTypes: (pokemons: Pokemon[]) => string[]
+= (pokemons: Pokemon[]): string[] /*return value string[] (names of all pokemons types)*/ => {
     let types: string[] = reduce(
         (acc: string[], p: Pokemon) =>
             acc.concat(
