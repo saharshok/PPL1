@@ -21,6 +21,5 @@ export const isNone: <T>(x: Optional<T>) => x is None = <T>(x: Optional<T>): x i
 
 /* Question 2 */
 export const bind: <T, U>(optional: Optional<T>, f: (x: T) => Optional<U>) => Optional<U>
-    = <T,U>(optional: Optional<T>, f: (x: T) => Optional<U>): Optional<U> => {
-    return isSome(optional) ? f(optional.value) : makeNone();
-};
+    = <T,U>(optional: Optional<T>, f: (x: T) => Optional<U>): Optional<U> =>
+    isSome(optional) ? f(optional.value) : makeNone();
