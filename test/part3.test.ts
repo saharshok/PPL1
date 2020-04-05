@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Optional, makeNone, makeSome, bind, isNone, isSome } from "../src/part3/optional";
+import { Optional, makeNone, makeSome, bind as bindOptional, isNone, isSome } from "../src/part3/optional";
 
 const div = (x: number, y: number): Optional<number> =>
     y === 0 ? makeNone() : makeSome(x / y);
@@ -16,13 +16,13 @@ const isOptionalValue = <T>(x: T): (o: Optional<T>) => boolean =>
 describe("Assignment 1 Part 3", () => {
     // sqrt(x) / y
     const fTest = (x: Optional<number>, y: Optional<number>): Optional<number> =>
-        bind(bind(x, sqrt), xv => bind(y, yv => div(xv, yv)));
+        bindOptional(bindOptional(x, sqrt), xv => bindOptional(y, yv => div(xv, yv)));
 
     // sqrt(pow(x, y) / z)
     const gTest = (x: Optional<number>, y: Optional<number>, z: Optional<number>): Optional<number> => {
-        let vo = bind(x, xv => bind(y, yv => power(xv, yv)));
-        vo = bind(vo, v => bind(z, zv => div(v, zv)));
-        vo = bind(vo, sqrt);
+        let vo = bindOptional(x, xv => bindOptional(y, yv => power(xv, yv)));
+        vo = bindOptional(vo, v => bindOptional(z, zv => div(v, zv)));
+        vo = bindOptional(vo, sqrt);
         return vo;
     }
 

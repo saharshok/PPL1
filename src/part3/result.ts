@@ -23,9 +23,8 @@ export const isFailure: <T>(x: Result<T>) => x is Failure = <T>(x: Result<T>): x
 
 /* Question 4 */
 export const bind: <T, U>(result: Result<T>, f: (x: T) => Result<U>) => Result<U>
-    = <T,U>(result: Result<T>, f: (x: T) => Result<U>): Result<U> => {
-    return isOk(result) ? f(result.value) : result;
-};
+    = <T,U>(result: Result<T>, f: (x: T) => Result<U>): Result<U> =>
+    isOk(result) ? f(result.value) : result;
 
 /* Question 5 */
 interface User {
@@ -55,7 +54,7 @@ export const naiveValidateUser: (user : User) => Result<User>
     const validateemail = validateEmail(user);
     const validatehandle = validateName(user);
     return isOk(validatename) ? isOk(validateemail) ? validatehandle : validateemail : validatename;
-    }
+}
 
 export const monadicValidateUser: (user: User) => Result<User> = (user: User): Result<User> =>
     reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle])
