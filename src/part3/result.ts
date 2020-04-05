@@ -8,7 +8,7 @@ interface Ok<T> {
 
 interface Failure {
     tag: "Failure";
-    massage: string;
+    message: string;
 }
 
 export type Result<T> = Ok<T> | Failure;
@@ -17,7 +17,7 @@ export const makeOk: <T>(value: T) => Result<T> = <T>(value: T): Result<T> => ({
 
 export const isOk: <T>(x: Result<T>) => x is Ok<T> = <T>(x: Result<T>): x is Ok<T> => x.tag === "Ok";
 
-export const makeFailure: <T>(massage: string) => Result<T> = <T>(massage: string): Result<T> => ({tag: "Failure",massage: massage});
+export const makeFailure: <T>(message: string) => Result<T> = <T>(message: string): Result<T> => ({tag: "Failure",message: message});
 
 export const isFailure: <T>(x: Result<T>) => x is Failure = <T>(x: Result<T>): x is Failure => x.tag === "Failure";
 

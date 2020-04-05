@@ -90,18 +90,18 @@ describe("Assignment 1 Part 3 (Result)", () => {
     it("checks monadicValidateUser returns Failure when email endsWith bananas.com" , () => {
         expect(monadicValidateUser(bananas)).to.satisfy(isFailure);
         expect(monadicValidateUser(bananas)).to.deep.eq(makeFailure("Domain bananas.com is not allowed"));
-    }); 
+    });
 
 
     it("checks monadicValidateUser returns Failure when handle startsWith @" , () => {
         expect(monadicValidateUser(thinkisTwitter)).to.satisfy(isFailure);
         expect(monadicValidateUser(thinkisTwitter)).to.deep.eq(makeFailure("This isn't Twitter"));
-    }); 
+    });
 
     it("checks monadicValidateUser returns Failure when name is Bananas" , () => {
         expect(monadicValidateUser(thinkisBananas)).to.satisfy(isFailure);
         expect(monadicValidateUser(thinkisBananas)).to.deep.eq(makeFailure("Bananas is not a name"));
-    }); 
+    });
 
 
     it("checks monadicValidateUser returns Ok", () => {
@@ -127,12 +127,12 @@ describe("Assignment 1 Part 3 (Result)", () => {
     it("checks naiveValidateUser returns Failure when handle startsWith @" , () => {
         expect(naiveValidateUser(thinkisTwitter)).to.satisfy(isFailure);
         expect(naiveValidateUser(thinkisTwitter)).to.deep.eq(makeFailure("This isn't Twitter"));
-    }); 
+    });
 
     it("checks naiveValidateUser returns Failure when name is Bananas" , () => {
         expect(naiveValidateUser(thinkisBananas)).to.satisfy(isFailure);
         expect(naiveValidateUser(thinkisBananas)).to.deep.eq(makeFailure("Bananas is not a name"));
-    }); 
+    });
 
     it("checks naiveValidateUser returns Ok", () => {
         let user: User = {name : "avi", email:"ilikebanan@aa.com", handle: "mylife"};
@@ -159,7 +159,7 @@ describe("Assignment 1 Part 3 (Result)", () => {
         r => isOk(r) && r.value === x;
 
     const isFailureMessage = <T>(msg: string): (r: Result<T>) => boolean =>
-        r => isFailure(r) && r.massage === msg;
+        r => isFailure(r) && r.message === msg;
 
     // sqrt(x) / y
     const fTest = (x: Result<number>, y: Result<number>): Result<number> =>
