@@ -27,13 +27,3 @@ export const bind: <T, U>(optional: Optional<T>, f: (x: T) => Optional<U>) => Op
     = <T,U>(optional: Optional<T>, f: (x: T) => Optional<U>): Optional<U> => {
     return isSome(optional) ? f(optional.value) : makeNone();
 };
-
-
-
-export const naiveValidateUser: (user : User) => Result<User>  
-    = (user : User) : Result<User> => {
-    const validatename = validateName(user);
-    const validateemail = validateEmail(user);
-    const validatehandle = validateName(user);
-    return isOk(validatename) ? isOk(validateemail) ? validatehandle : validateemail : validatename;
-    }
