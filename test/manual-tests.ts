@@ -1,4 +1,5 @@
 import { maxSpeed, grassTypes, uniqueTypes } from "../src/part2/part2";
+import { Optional, makeNone, makeSome, bind, isNone, isSome } from "../src/part3/optional";
 
 const PokemonDatabase = JSON.parse(`
 [{
@@ -16592,3 +16593,15 @@ const PokemonDatabase = JSON.parse(`
 console.log(maxSpeed(PokemonDatabase));
 console.log(grassTypes(PokemonDatabase));
 console.log(uniqueTypes(PokemonDatabase));
+
+const div = (x: number, y: number): Optional<number> =>
+    y === 0 ? makeNone() : makeSome(x / y);
+
+const power = (x: number, y: number): Optional<number> =>
+    y === 0 && x === 0 ? makeNone() : makeSome(Math.pow(x, y));
+
+const sqrt = (x: number): Optional<number> =>
+    x < 0 ? makeNone() : makeSome(Math.sqrt(x));
+
+const isOptionalValue = <T>(x: T): (o: Optional<T>) => boolean =>
+    o => isSome(o) && o.value === x;
