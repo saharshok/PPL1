@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Optional, makeNone, makeSome, bind, isNone, isSome } from "../src/part3/optional";
-import { naiveValidateUser } from "../src/part3/result";
+import { naiveValidateUser, isFailure, monadicValidateUser, makeFailure, makeOk, isOk } from "../src/part3/result";
 const div = (x: number, y: number): Optional<number> =>
     y === 0 ? makeNone() : makeSome(x / y);
 
@@ -71,5 +71,74 @@ describe("Assignment 1 Part 3 (Result)", () => {
     }
 
     let emptyemail: User = {name : "avi", email:"", handle: "mylife"};
+    let emptyename: User = {name : "", email:"ff@gmail.com", handle: "mylife"};
+    let emptyehandle: User = {name : "jodi froster", email:"ff@gmail.com", handle: ""};
+    let bananas: User = {name : "yosi", email:"bananas.com", handle: "ban ayon"};
+    let thinkisTwitter: User = {name : "yosi", email:"ban@ayon", handle: "@"};
+    let thinkisBananas: User = {name : "Bananas", email:"basdfasdf", handle: "snajsd"};
 
-})
+    it("checks monadicValidateUser returns Failure on empty", () => {
+        expect(monadicValidateUser(emptyemail)).to.satisfy(isFailure);
+        expect(monadicValidateUser(emptyemail)).to.deep.eq(makeFailure("Email cannot be empty"));
+        expect(monadicValidateUser(emptyename)).to.satisfy(isFailure);
+        expect(monadicValidateUser(emptyename)).to.deep.eq(makeFailure("Name cannot be empty"));
+        expect(monadicValidateUser(emptyehandle)).to.satisfy(isFailure);
+        expect(monadicValidateUser(emptyehandle)).to.deep.eq(makeFailure("Handle cannot be empty"));
+    });
+
+    it("checks monadicValidateUser returns Failure when email endsWith bananas.com" , () => {
+        expect(monadicValidateUser(bananas)).to.satisfy(isFailure);
+        expect(monadicValidateUser(bananas)).to.deep.eq(makeFailure("Domain bananas.com is not allowed"));
+    }); 
+
+
+    it("checks monadicValidateUser returns Failure when handle startsWith @" , () => {
+        expect(monadicValidateUser(thinkisTwitter)).to.satisfy(isFailure);
+        expect(monadicValidateUser(thinkisTwitter)).to.deep.eq(makeFailure("This isn't Twitter"));
+    }); 
+
+    it("checks monadicValidateUser returns Failure when name is Bananas" , () => {
+        expect(monadicValidateUser(thinkisBananas)).to.satisfy(isFailure);
+        expect(monadicValidateUser(thinkisBananas)).to.deep.eq(makeFailure("Bananas is not a name"));
+    }); 
+
+
+    it("checks monadicValidateUser returns Ok", () => {
+        let user: User = {name : "avi", email:"ilikebanan@aa.com", handle: "mylife"};
+        expect(monadicValidateUser(user)).to.satisfy(isOk);
+        expect(monadicValidateUser(user)).to.deep.eq(makeOk(user));
+    });
+
+    it("checks naiveValidateUser returns Failure on empty", () => {
+        expect(naiveValidateUser(emptyemail)).to.satisfy(isFailure);
+        expect(naiveValidateUser(emptyemail)).to.deep.eq(makeFailure("Email cannot be empty"));
+        expect(naiveValidateUser(emptyename)).to.satisfy(isFailure);
+        expect(naiveValidateUser(emptyename)).to.deep.eq(makeFailure("Name cannot be empty"));
+        expect(naiveValidateUser(emptyehandle)).to.satisfy(isFailure);
+        expect(naiveValidateUser(emptyehandle)).to.deep.eq(makeFailure("Handle cannot be empty"));
+    });
+
+    it("checks naiveValidateUser returns Failure when email endsWith bananas.com" , () => {
+        expect(naiveValidateUser(bananas)).to.satisfy(isFailure);
+        expect(naiveValidateUser(bananas)).to.deep.eq(makeFailure("Domain bananas.com is not allowed"));
+    });
+
+    it("checks naiveValidateUser returns Failure when handle startsWith @" , () => {
+        expect(naiveValidateUser(thinkisTwitter)).to.satisfy(isFailure);
+        expect(naiveValidateUser(thinkisTwitter)).to.deep.eq(makeFailure("This isn't Twitter"));
+    }); 
+
+    it("checks naiveValidateUser returns Failure when name is Bananas" , () => {
+        expect(naiveValidateUser(thinkisBananas)).to.satisfy(isFailure);
+        expect(naiveValidateUser(thinkisBananas)).to.deep.eq(makeFailure("Bananas is not a name"));
+    }); 
+
+    it("checks naiveValidateUser returns Ok", () => {
+        let user: User = {name : "avi", email:"ilikebanan@aa.com", handle: "mylife"};
+        expect(naiveValidateUser(user)).to.satisfy(isOk);
+        expect(naiveValidateUser(user)).to.deep.eq(makeOk(user));
+    });
+
+    expect(monadicValidateUser(emptyemail)).to.satisfy(isFailure);
+
+});
