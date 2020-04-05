@@ -13,6 +13,8 @@ const sqrt = (x: number): Optional<number> =>
 const isOptionalValue = <T>(x: T): (o: Optional<T>) => boolean =>
     o => isSome(o) && o.value === x;
 
+import "../src/part3/optional"
+
 describe("Assignment 1 Part 3", () => {
     // sqrt(x) / y
     const fTest = (x: Optional<number>, y: Optional<number>): Optional<number> =>

@@ -1,15 +1,31 @@
 /* Question 3 */
+import { reduce } from "ramda";
 
-export type Result<T> = undefined;
+interface Ok<T> {
+    tag: "Ok";
+    value: T;
+}
 
-export const makeOk = undefined;
-export const makeFailure = undefined;
+interface Failure {
+    tag: "Failure";
+    massage: string;
+}
 
-export const isOk = undefined;
-export const isFailure = undefined;
+export type Result<T> = Ok<T> | Failure;
+
+export const makeOk: <T>(value: T) => Result<T> = <T>(value: T): Result<T> => ({tag: "Ok",value: value});
+
+export const isOk: <T>(x: Result<T>) => x is Ok<T> = <T>(x: Result<T>): x is Ok<T> => x.tag === "Ok";
+
+export const makeFailure: <T>(massage: string) => Result<T> = <T>(massage: string): Result<T> => ({tag: "Failure",massage: massage});
+
+export const isFailure: <T>(x: Result<T>) => x is Failure = <T>(x: Result<T>): x is Failure => x.tag === "Failure";
 
 /* Question 4 */
-export const bind = undefined;
+export const bind: <T, U>(result: Result<T>, f: (x: T) => Result<U>) => Result<U>
+    = <T,U>(result: Result<T>, f: (x: T) => Result<U>): Result<U> => {
+    return isOk(result) ? f(result.value) : result;
+};
 
 /* Question 5 */
 interface User {
@@ -33,6 +49,13 @@ const validateHandle = (user: User): Result<User> =>
     user.handle.startsWith("@") ? makeFailure("This isn't Twitter") :
     makeOk(user);
 
-export const naiveValidateUser = undefined;
+export const naiveValidateUser: (user : User) => Result<User>  
+    = (user : User) : Result<User> => {
+    const validatename = validateName(user);
+    const validateemail = validateEmail(user);
+    const validatehandle = validateName(user);
+    return isOk(validatename) ? isOk(validateemail) ? validatehandle : validateemail : validatename;
+    }
 
-export const monadicValidateUser = undefined;
+export const monadicValidateUser: (user: User) => Result<User> = (user: User): Result<User> =>
+    reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle])
