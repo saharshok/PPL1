@@ -1,6 +1,8 @@
 import { expect } from "chai";
 
-import { partition, mapMat, composeMany } from "../src/part2/part2"
+import { partition, mapMat,composeMany,uniqueTypes  } from "../src/part2/part2"
+import {readFileSync} from "fs";
+
 
 function biggerthen10(element:number) {
     return (element >= 10);
