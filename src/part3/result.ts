@@ -1,6 +1,6 @@
-/* Question 3 */
 import { reduce } from "ramda";
 
+/* Question 3 */
 interface Ok<T> {
     tag: "Ok";
     value: T;
@@ -49,7 +49,7 @@ const validateHandle = (user: User): Result<User> =>
     user.handle.startsWith("@") ? makeFailure("This isn't Twitter") :
     makeOk(user);
 
-export const naiveValidateUser: (user : User) => Result<User>  
+export const naiveValidateUser: (user : User) => Result<User>
     = (user : User) : Result<User> => {
     const validatename = validateName(user);
     const validateemail = validateEmail(user);
