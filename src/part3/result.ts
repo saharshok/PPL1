@@ -13,11 +13,11 @@ interface Failure {
 
 export type Result<T> = Ok<T> | Failure;
 
-export const makeOk: <T>(value: T) => Result<T> = <T>(value: T): Result<T> => ({tag: "Ok",value: value});
+export const makeOk: <T>(value: T) => Ok<T> = <T>(value: T): Ok<T> => ({tag: "Ok",value: value});
 
 export const isOk: <T>(x: Result<T>) => x is Ok<T> = <T>(x: Result<T>): x is Ok<T> => x.tag === "Ok";
 
-export const makeFailure: <T>(message: string) => Result<T> = <T>(message: string): Result<T> => ({tag: "Failure",message: message});
+export const makeFailure: (message: string) => Failure = (message: string): Failure => ({tag: "Failure",message: message});
 
 export const isFailure: <T>(x: Result<T>) => x is Failure = <T>(x: Result<T>): x is Failure => x.tag === "Failure";
 
@@ -60,4 +60,4 @@ export const naiveValidateUser: (user : User) => Result<User>
 }
 
 export const monadicValidateUser: (user: User) => Result<User> = (user: User): Result<User> =>
-    reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle])
+    reduce<(x: User) => Result<User>, Result<User>>(bind, makeOk(user), [validateName, validateEmail, validateHandle])
